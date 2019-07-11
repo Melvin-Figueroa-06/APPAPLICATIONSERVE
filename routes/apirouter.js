@@ -1,6 +1,9 @@
 var express = require('express');
+const user = require('../database/users');
+const USER = user.model;
+const USERSCHEMA = user.Schema;
+var valid = require("../utils/valid");
 var router = express.Router();
-var USER = require('../database/users');
 //var express = require('socket.io');
 
 //io = require('socket.io').listen(server);
@@ -9,6 +12,18 @@ var USER = require('../database/users');
 router.post('/user', async(req,res) => {
   var params = req.body;
   params["registerdate"] = new Date();
+  if (!valid.checkParams(USERSCHEMA, params)) {
+    res.status(300).json({
+      msn: "parametros incorrectos"
+    });
+    return;
+  }
+  if (!valid.checkEmail(params.email)) {
+    res.status(300).json({
+      msn: "Email Invalido"
+    });
+    return;
+  }
   var users = new USER(params);
   var result = await users.save();
   res.status(200).json(result);
@@ -30,6 +45,12 @@ router.get("/user", (req, res) => {
       order = 1;
     }
   }
+  var filter = {};
+  if (params.id != null) {
+    filter = {_id: params.id};
+    console.log(filter);
+  }
+
   var skip = 0;
   if (params.skip != null) {
     skip = parseInt(params.skip);
@@ -39,21 +60,54 @@ router.get("/user", (req, res) => {
   });
 });
 
-//Creación del servicio de GET PATCH.
-router.patch("/user", (req, res) => {
-  if (req.query.id == null) {
+
+//actualiza todo los parametros
+router.put('/user', async(req,res) => {
+  var params = req.body;
+  var id = req.query.id;
+  if (id == null) {
     res.status(300).json({
-      msn: "Error no existe id"
+      msn: "falta el id del item"
     });
     return;
-    }
-    var id = req.query.id;
-    var params = req.body;
-    USER.findOneAndUpdate({_id: id}, params, (err, docs) => {
-      res.status(200).json(docs);
+  }
+  params["registerdate"] = new Date();
+  if (!valid.checkParams(USERSCHEMA, params)) {
+    res.status(300).json({
+      msn: "parametros incorrectos"
     });
-  });
+    return;
+  }
+  if (!valid.checkEmail(params.email)) {
+    res.status(300).json({
+      msn: "Email Invalido"
+    });
+    return;
+  }
+  delete params.registerdate;
+  var result =  await USER.findOneAndUpdate({_id: id}, params);
+  res.status(200).json(result);
+});
 
+//Creación del servicio de PATCH---actualiza solo un parametro.
+router.patch('/user', async(req,res) => {
+  var params = req.body;
+  var id = req.query.id;
+  if (id == null) {
+    res.status(300).json({
+      msn: "falta el id del item"
+    });
+    return;
+  }
+  if (params.email != null && !valid.checkEmail(params.email)) {
+    res.status(300).json({
+      msn: "Email Invalido"
+    });
+    return;
+  }
+  var result =  await USER.findOneAndUpdate({_id: id}, params);
+  res.status(200).json(result);
+});
 //Creación del servicio DELETE
 router.delete("/user", async(req, res) => {
   if (req.query.id == null) {
@@ -64,7 +118,7 @@ router.delete("/user", async(req, res) => {
   }
   var r = await USER.remove({_id: req.query.id});
   res.status(300).json(r);
-});
+});true
 
 
 /*

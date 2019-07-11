@@ -1,6 +1,7 @@
 var USER = require('../database/users');
 
 var valid = {
+
   checkParams: function(refobj, evalueobj) {
     if (Object.keys(refobj).sort().toString() == Object.keys(evalueobj).sort().toString()){
       return true;
@@ -21,8 +22,11 @@ var valid = {
 
     },
   checkEmail: function(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+    var exp = /^\w{1,}@\w{1,}[.]\w{2,3}$/g;
+    if(email.match(exp) == null){
+      return false;
+    }
+    return true;
   }
 };
 module.exports = valid;
