@@ -16,5 +16,5 @@ var publicacionSchema = Schema({
 })
 //Nombre, precio, descripción, fechaderegistro, fotografía del producto
 
-const menus = mongoose.model("Menus", menusSchema);
+const menus = mongoose.model("publicacion", menusSchema);
 module.exports = menus;

@@ -11,7 +11,8 @@ var USERSCHEMA = {
   registerdate:Date,
   sex         :String,
 //  sex         :{type: String,enum:posibles_valores},
-  address     :String
+  address     :String,
+  roles       : Array
   }
 const USERS = mongoose.model("users", USERSCHEMA);
 module.exports = {model: USERS, Schema: USERSCHEMA};

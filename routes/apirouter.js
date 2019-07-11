@@ -1,9 +1,11 @@
 var express = require('express');
+var sha1 = require('sha1');
 const user = require('../database/users');
 const USER = user.model;
 const USERSCHEMA = user.Schema;
 var valid = require("../utils/valid");
 var router = express.Router();
+var jwt = require('jsonwebtoken');
 //var express = require('socket.io');
 
 //io = require('socket.io').listen(server);
@@ -24,13 +26,14 @@ router.post('/user', async(req,res) => {
     });
     return;
   }
+  params["password"] = sha1(params["password"]);
   var users = new USER(params);
   var result = await users.save();
   res.status(200).json(result);
 });
 
 //Creación del servicio de GET mostrar.
-router.get("/user", (req, res) => {
+router.get("/user", verifytoken, async (req, res, next) => {
   var params = req.query;
   console.log(params);
   var limit = 100;
@@ -95,19 +98,21 @@ router.patch('/user', async(req,res) => {
   var id = req.query.id;
   if (id == null) {
     res.status(300).json({
-      msn: "falta el id del item"
+      msn: "falta el id del item"
     });
     return;
-  }
+  }Usuario
   if (params.email != null && !valid.checkEmail(params.email)) {
     res.status(300).json({
       msn: "Email Invalido"
     });
     return;
   }
-  var result =  await USER.findOneAndUpdate({_id: id}, params);
+  var result =  await USER.findOneAndUpdate({_id: id}, params);Usuario
   res.status(200).json(result);
 });
+
+
 //Creación del servicio DELETE
 router.delete("/user", async(req, res) => {
   if (req.query.id == null) {
@@ -117,64 +122,60 @@ router.delete("/user", async(req, res) => {
     return;
   }
   var r = await USER.remove({_id: req.query.id});
-  res.status(300).json(r);
+  res.status(300).json(r);Usuario
 });true
 
-
+//------------------------------------
 /*
 Login USER
 */
-router.post("/login", (req, res, next) => {
-  var email = req.body.email;
-  var password = req.body.password;
-  var result = Cliente.findOne({email: email,password: password}).exec((err, doc) => {
-    if (err) {
-      res.status(300).json({
-        msn : "No se puede concretar con la peticion "
-      });
-      return;
-    }
-    console.log(doc);
-    if (doc) {
-       console.log(result);
-      //res.status(200).json(doc);
-      jwt.sign({name: doc.email, password: doc.password}, "secretkey123", (err, token) => {
-          console.log(result);
-          res.status(200).json({
-            resp:200,
-            token : token,
-            dato:doc
-          });
-      })
-    } else {
-      res.status(400).json({
-        resp: 400,
-        msn : "El usuario no existe en la base de datos"
-      });
-    }
-  });
+router.post("/login", async (req, res, next) => {
+  var params = req.body;
+  if (!valid.checkParams({"email": String, "password": String}, params)) {
+    res.status(300).json({"msn": "Error de Parametros Incorrectos"});
+    return;
+  }
+  var password = sha1(params.password);
+  var docs = await USER.find({email: params.email, password:password});
+  if (docs.length == 0) {
+    res.status(300).json({"msn": "Error usuario no registrado"});
+    return;
+  }
+  if (docs.length == 1) {
+    jwt.sign({name: params.email, password: params.password}, "password", (err, token) => {
+      if (err) {
+        res.status(300).json({"msn": "Error dentro del JWT"});
+        return;
+      }
+      res.status(200).json({"token": token});
+    });
+    return;
+  }
 });
 
-//Middelware
+
+	router.post("/logout", (req, res) => {
+		res.clearCookie('login');
+		req.session.destroy(function(e){ res.status(200).send('ok'); });
+	});
+
+
+
+//verificacion de tokens
 function verifytoken (req, res, next) {
-  //Recuperar el header
-  const header = req.headers["authorization"];
-  if (header  == undefined) {
-      res.status(403).json({
-        msn: "No autorizado"
-      })
-  } else {
-      req.token = header.split(" ")[1];
-      jwt.verify(req.token, "secretkey123", (err, authData) => {
-        if (err) {
-          res.status(403).json({
-            msn: "No autorizado"
-          })
-        } else {
-          next();
-        }
-      });
+  var token = req.headers["authorization"];
+  if (token == null) {
+    res.status(300).json({"msn": "Error no tienes accesos"});
+    return;
   }
+  jwt.verify(token, "password", (err, auth) => {
+    if (true) {
+      res.status(300).json({"msn": "Token Invalido"});
+      return;
+    }
+    res.status(200).json(auth);
+    return;
+  });
 }
 
 
