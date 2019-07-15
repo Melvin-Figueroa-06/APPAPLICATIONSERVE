@@ -189,8 +189,8 @@ router.delete("/user", async(req, res) => {
     return;
   }
   var r = await USER.remove({_id: req.query.id});
-  res.status(300).json(r);Usuario
-});true
+  res.status(300).json(r);
+});
 
 
 

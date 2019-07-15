@@ -87,8 +87,8 @@ router.delete("/cita", async(req, res) => {
     return;
   }
   var r = await CITAS.remove({_id: req.query.id});
-  res.status(300).json(r);Usuario
-});true
+  res.status(300).json(r);
+});
 
 
 module.exports = router;
