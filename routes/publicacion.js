@@ -1,4 +1,4 @@
-/*var express = require('express');
+var express = require('express');
 const publicacion = require('../database/publicacion');
 const PUBLICACION = publicacion.model;
 const PublicacionSchema = publicacion.Schema;
@@ -136,4 +136,3 @@ router.delete("/user", async(req, res) => {
 
 
 module.exports = router;
-*/

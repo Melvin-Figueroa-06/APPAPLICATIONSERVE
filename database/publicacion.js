@@ -10,5 +10,6 @@ var PublicacionSchema ={
     fechaRegistro :{type: Date, default: Date.now()},
     foto          : String
 };
+
 const PUBLICACION = mongoose.model("publicacion", PublicacionSchema);
 module.exports = {model: PUBLICACION, Schema: PublicacionSchema};
