@@ -9,12 +9,18 @@ var router = express.Router();
 router.post('/publicacion', async(req, res) => {
     var params = req.body;
     params["registerdate"] = new Date();
+    if (!valid.checkParams(PublicacionSchema, params)) {
+      res.status(300).json({
+        msn: "parametros incorrectos"
+      });
+      return;
+    }
     var publicacion = new PUBLICACION(params);
     var result = await publicacion.save();
     res.status(200).json(result);
 });
-/*
-//
+
+// muestra todos los datos insertados
 router.get("/publicacion",(req, res) => {
   var skip = 0;
   var limit = 10;
@@ -37,7 +43,7 @@ router.get("/publicacion",(req, res) => {
     });
   });
 });
-
+/*
 router.get(/publicacion\/[a-z0-9]{1,}$/, (req, res) => {
   var url = req.url;
   var id = url.split("/")[2];
@@ -54,6 +60,7 @@ router.get(/publicacion\/[a-z0-9]{1,}$/, (req, res) => {
   })
 });
 
+//borra los datos insertados
 router.delete('/publicacion/:id', (req, res,) => {
   var idPublicacion = req.params.id;
 
@@ -113,5 +120,19 @@ router.patch("/publicacion",(req, res) => {
     return;
 
   });
-});*/
+});
+
+//BORRA LAS CITAS INSERTADAS
+router.delete("/user", async(req, res) => {
+  if (req.query.id == null) {
+    res.status(300).json({
+      msn: "Error no existe id"
+    });
+    return;
+  }
+  var r = await USER.remove({_id: req.query.id});
+  res.status(300).json(r);Usuario
+});true
+
+*/
 module.exports = router;

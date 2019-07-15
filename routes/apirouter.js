@@ -15,9 +15,9 @@ var verifytoken = rols.verifytoken;
 
 
 //------------------------------------
-/*
-Login USER
-*/
+
+//Login USER
+
 router.post("/login", async (req, res, next) => {
   var params = req.body;
   if (!valid.checkParams({"email": String, "password": String}, params)) {
@@ -49,7 +49,7 @@ router.post("/login", async (req, res, next) => {
 	});
 
 
-
+//INSERCION DE DATOS
 
 router.post('/user', async(req,res) => {
   var params = req.body;
