@@ -1,4 +1,4 @@
-var express = require('express');
+/*var express = require('express');
 const publicacion = require('../database/publicacion');
 const PUBLICACION = publicacion.model;
 const PublicacionSchema = publicacion.Schema;
@@ -43,7 +43,7 @@ router.get("/publicacion",(req, res) => {
     });
   });
 });
-/*
+
 router.get(/publicacion\/[a-z0-9]{1,}$/, (req, res) => {
   var url = req.url;
   var id = url.split("/")[2];
@@ -134,5 +134,6 @@ router.delete("/user", async(req, res) => {
   res.status(300).json(r);Usuario
 });true
 
-*/
+
 module.exports = router;
+*/
