@@ -1,22 +1,20 @@
 var express = require('express');
+const publicacion = require('../database/publicacion');
+const PUBLICACION = publicacion.model;
+const PublicacionSchema = publicacion.Schema;
+var valid = require("../utils/valid");
 var router = express.Router();
-var USER = require('../database/publicacion');
 
-router.post("/publicacion", (req, res) => {
 
-  //validacion
-  var data = req.body;
-  data ["registerdate"] = new Date();
-  var newpublicacion = new Publicacion(data);
-  newpublicacion.save().then((rr) =>{
-    res.status(200).json({
-      "resp": 200,
-      "dato": newpublicacion,
-      "id" : rr._id,
-      "msn" :  "publicacion agregado con exito"
-    });
-  });
+router.post('/publicacion', async(req, res) => {
+    var params = req.body;
+    params["registerdate"] = new Date();
+    var publicacion = new PUBLICACION(params);
+    var result = await publicacion.save();
+    res.status(200).json(result);
 });
+/*
+//
 router.get("/publicacion",(req, res) => {
   var skip = 0;
   var limit = 10;
@@ -27,7 +25,7 @@ router.get("/publicacion",(req, res) => {
   if (req.query.limit != null) {
     limit = req.query.limit;
   }
-  Publicacion.find({}).skip(skip).limit(limit).exec((err, docs) => {
+  PUBLICACION.find({}).skip(skip).limit(limit).exec((err, docs) => {
     if (err) {
       res.status(500).json({
         "msn" : "Error en la db"
@@ -43,7 +41,7 @@ router.get("/publicacion",(req, res) => {
 router.get(/publicacion\/[a-z0-9]{1,}$/, (req, res) => {
   var url = req.url;
   var id = url.split("/")[2];
-  Publicacion.findOne({_id : id}).exec( (error, docs) => {
+  PUBLICACION.findOne({_id : id}).exec( (error, docs) => {
     if (docs != null) {
         res.status(200).json(docs);
         return;
@@ -59,7 +57,7 @@ router.get(/publicacion\/[a-z0-9]{1,}$/, (req, res) => {
 router.delete('/publicacion/:id', (req, res,) => {
   var idPublicacion = req.params.id;
 
-  Publicacion.findByIdAndRemove(idPublicacion).exec()
+  PUBLICACION.findByIdAndRemove(idPublicacion).exec()
       .then(() => {
 
       res.status(200).json({
@@ -84,7 +82,7 @@ router.patch("/publicacion",(req, res) => {
   var id = req.query.id;
   //database
   var keys = Object.keys(params);
-  var updatekeys = ["nombre", "precio", "descripcion", "foto"];
+  var updatekeys = ["nombre", "precio", "descripcion", "stock", "estado", "categoria","foto"];
   var newkeys = [];
   var values = [];
   //seguridad
@@ -100,7 +98,7 @@ router.patch("/publicacion",(req, res) => {
       objupdate[newkeys[i]] = values[i];
   }
   console.log(objupdate);
-  Publicacion.findOneAndUpdate({_id: id}, objupdate ,(err, docs) => {
+  PUBLICACION.findOneAndUpdate({_id: id}, objupdate ,(err, docs) => {
     if (err) {
       res.status(500).json({
           msn: "Existe un error en la base de datos"
@@ -115,5 +113,5 @@ router.patch("/publicacion",(req, res) => {
     return;
 
   });
-});
+});*/
 module.exports = router;

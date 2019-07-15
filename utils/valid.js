@@ -1,4 +1,5 @@
 var USER = require('../database/users');
+var CITA = require('../database/citas');
 
 var valid = {
 

@@ -9,11 +9,8 @@ var USERSCHEMA = {
   //password    :String,
   password      :{type: String, minlength:[8, "El password es muy corto"]},
   registerdate  :{type: Date, defautl: Date.now()},
-//  sex         :String,
-  sex           :{type: String, enum:['varon', 'mujer']},
   address       :String,
-  avatar        :String,
-  tipo          :{type:String, enum:['comprador', 'vendedor']},
+  tipo          :{type:String, enum:['Comprador', 'Vendedor']},
   roles         :Array
   }
 const USERS = mongoose.model("users", USERSCHEMA);

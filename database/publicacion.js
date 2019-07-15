@@ -1,19 +1,21 @@
-const mongoose = require("../connect");
-const Schema = mongoose.Schema;
+const mongoose = require("./connect");
 
-var publicacionSchema = Schema({
+/*
 
-    vendedor      :{type: Schema.Types.ObjectId, required: 'Falta informacion'},
+var PublicacionSchema ={
+
+
     nombre        :String,
     precio        :{type: Number, required: 'Debe tener un precio'},
     descripcion   :String,
     stock         :{type: Number, default:1},
-    estado        :{type:String, default:desponible, enum:['disponible', 'vendido']},
+    estado        :{type:String,  enum:['disponible', 'vendido']},
     categoria     :{type:String, enum:['casas', 'ropa', 'autos', 'servicios']},
     fechaRegistro :{type: Date, default: Date.now()},
     foto          : String
-})
+};
 //Nombre, precio, descripción, fechaderegistro, fotografía del producto
 
-const menus = mongoose.model("publicacion", menusSchema);
-module.exports = menus;
+const PUBLICACION = mongoose.model("publicacion", PublicacionSchema);
+module.exports = {model: PUBLICACION, Schema: PublicacionSchema};
+*/
