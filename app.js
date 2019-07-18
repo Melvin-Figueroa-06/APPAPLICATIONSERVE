@@ -20,6 +20,7 @@ var usuarioRouter = require('./routes/usuario');
 var seguidosRouter = require('./routes/seguidos');
 var personaRouter = require('./routes/persona');
 var mensajeRouter = require('./routes/mensajes');
+var favoritoRouter = require('./routes/favorito');
 
 var app = express();
 
@@ -44,6 +45,7 @@ app.use('/usuario', usuarioRouter);
 app.use('/seguidos', seguidosRouter);
 app.use('/persona', personaRouter);
 app.use('/mensajes', mensajeRouter);
+app.use('/favorito', favoritoRouter);
 //app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 
