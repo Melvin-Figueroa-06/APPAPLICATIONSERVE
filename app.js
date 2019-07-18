@@ -18,6 +18,7 @@ var publicacion = require('./routes/publicacion');
 var productoRouter = require('./routes/productos');
 var usuarioRouter = require('./routes/usuario');
 var seguidosRouter = require('./routes/seguidos');
+var personaRouter = require('./routes/persona');
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use('/v1.0/api', publicacion);
 app.use('/producto', productoRouter);
 app.use('/usuario', usuarioRouter);
 app.use('/seguidos', seguidosRouter);
+app.use('/persona', personaRouter);
 //app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 
