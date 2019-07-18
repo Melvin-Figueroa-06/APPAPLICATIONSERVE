@@ -92,7 +92,9 @@ router.patch("/publicacion",(req, res) => {
   var updatekeys = ["nombre", "precio", "descripcion", "stock", "estado", "categoria","foto"];
   var newkeys = [];
   var values = [];
-  //seguridad
+
+
+  //segurity
   for (var i  = 0; i < updatekeys.length; i++) {
     var index = keys.indexOf(updatekeys[i]);
     if (index != -1) {
@@ -122,7 +124,7 @@ router.patch("/publicacion",(req, res) => {
   });
 });
 
-//BORRA LAS CITAS INSERTADAS
+//BORRA CITAS INSERTADAS
 router.delete("/user", async(req, res) => {
   if (req.query.id == null) {
     res.status(300).json({

@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
-const auth = require('./verifytoken'); // not used
+const auth = require('./verifytoken'); 
 const validPersona = require('../utils/validation')
-
 const FAVORITO = require('../database/favoritos');
 
 

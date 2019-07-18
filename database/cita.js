@@ -1,4 +1,4 @@
-const mongoose = require("./connect");
+/*const mongoose = require("./connect");
 
 
 var CitaSchema = {
@@ -12,3 +12,4 @@ var CitaSchema = {
 };
 const CITAS = mongoose.model('citas', CitaSchema);
 module.exports = {model: CITAS, Schema: CitaSchema};
+*/

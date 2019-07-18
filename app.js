@@ -13,7 +13,6 @@ io = require('socket.io').listen(server);
 //var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 var apireRouter = require('./routes/apirouter');
-var cita = require('./routes/cita');
 var publicacion = require('./routes/publicacion');
 var productoRouter = require('./routes/productos');
 var usuarioRouter = require('./routes/usuario');
@@ -21,6 +20,7 @@ var seguidosRouter = require('./routes/seguidos');
 var personaRouter = require('./routes/persona');
 var mensajeRouter = require('./routes/mensajes');
 var favoritoRouter = require('./routes/favorito');
+var citasRouter = require('./routes/citas');
 
 var app = express();
 
@@ -37,7 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/v1.0/api',apireRouter);
-app.use('/v1.0/api',cita);
 app.use('/v1.0/api', publicacion);
 
 app.use('/producto', productoRouter);
@@ -46,6 +45,7 @@ app.use('/seguidos', seguidosRouter);
 app.use('/persona', personaRouter);
 app.use('/mensajes', mensajeRouter);
 app.use('/favorito', favoritoRouter);
+app.use('/citas', citasRouter);
 //app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 

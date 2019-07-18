@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt');
 var multer = require('multer');
 var path = require('path');
 const router = express.Router();
-
-const auth = require('./verifytoken'); // not used
+const auth = require('./verifytoken'); 
 const validPersona = require('../utils/validation')
 const USER = require('../database/usuarios');
 const PERSONA = require('../database/personas');
