@@ -15,6 +15,7 @@ io = require('socket.io').listen(server);
 var apireRouter = require('./routes/apirouter');
 var cita = require('./routes/cita');
 var publicacion = require('./routes/publicacion');
+var productoRouter = require('./routes/productos');
 
 var app = express();
 
@@ -33,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/v1.0/api',apireRouter);
 app.use('/v1.0/api',cita);
 app.use('/v1.0/api', publicacion);
+
+app.use('/producto', productoRouter);
 //app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 

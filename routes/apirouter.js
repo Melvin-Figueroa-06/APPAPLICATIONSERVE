@@ -74,6 +74,19 @@ router.post('/user', async(req,res) => {
 });
 
 //Creación del servicio de GET mostrar.
+
+router.get('/:id', function(req, res, next) {
+
+  USER.findById(req.params.id,"-password")
+  .exec(function (err, doc) {
+    if (err) {
+      res.json({error:err.message})
+    }
+    res.json(doc)
+  });
+});
+
+/*
 router.get("/user", verifytoken, async (req, res, next) => {
   var params = req.query;
   console.log(params);
@@ -103,10 +116,10 @@ router.get("/user", verifytoken, async (req, res, next) => {
     res.status(200).json(docs);
   });
 });
-
+*/
 
 //actualiza todo los parametros
-router.put('/user', async(req,res) => {
+router.put('/user:id', async(req,res) => {
   var params = req.body;
   var id = req.query.id;
   if (id == null) {
@@ -134,6 +147,7 @@ router.put('/user', async(req,res) => {
 });
 
 //Creación del servicio de PATCH---actualiza solo un parametro.
+
 router.patch('/user', async(req,res) => {
   var params = req.body;
   var id = req.query.id;
@@ -143,12 +157,12 @@ router.patch('/user', async(req,res) => {
     });
     return;
   }
-  if (params.email != null) {
+  /*if (params.email != null) {
     res.status(300).json({
       msn: "No puedes actualizar tu email"
     });
     return;
-  }
+  }*/
   var validparams = user.updatekeys;
   //filtro de seguridad
   var checkParams = Object.keys(params);

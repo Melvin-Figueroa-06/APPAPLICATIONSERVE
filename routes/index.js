@@ -3,6 +3,7 @@ var router = express.Router();
 const methodOverride = require('method-override');
 const session = require('express-session');
 var jwt = require("jsonwebtoken");
+const multer = require('multer');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -39,7 +40,7 @@ const upload = multer({
   storage: storage,
 })
 
-
+/*
 //MIdddlewares
 app.use(express.urlencoded({extended: false}));
 app.use(methodOverride('method'));
@@ -47,5 +48,5 @@ app.use(session({
   secret: 'mysecretapp',
   resave: true,
   saveUninitialized: true,
-}));
+}));*/
 module.exports = router;
